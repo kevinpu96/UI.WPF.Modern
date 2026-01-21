@@ -1175,7 +1175,7 @@
                                                 </Grid.RowDefinitions>
 
                                                 <!--  MenuItems  -->
-                                                <local:ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                <local:ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsAnchorTrackingEnabled="False">
                                                     <ui:ScrollViewerEx
                                                         x:Name="MenuItemsScrollViewer"
                                                         KeyboardNavigation.TabNavigation="Local"
@@ -1204,7 +1204,7 @@
                                                     Style="{StaticResource DefaultContentControlStyle}" />
 
                                                 <!--  FooterItems  -->
-                                                <local:ItemsRepeaterScrollHost Grid.Row="3">
+                                                <local:ItemsRepeaterScrollHost Grid.Row="3" IsAnchorTrackingEnabled="False">
                                                     <ui:ScrollViewerEx x:Name="FooterItemsScrollViewer">
                                                         <!--  contract7Present:VerticalAnchorRatio="1"  -->
                                                         <local:ItemsRepeater x:Name="FooterMenuItemsHost" />
