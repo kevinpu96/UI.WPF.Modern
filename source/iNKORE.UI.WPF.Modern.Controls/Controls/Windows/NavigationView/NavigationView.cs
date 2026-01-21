@@ -3454,11 +3454,48 @@ namespace iNKORE.UI.WPF.Modern.Controls
         {
             if (!IsTopNavigationView())
             {
+                var menuScrollViewer = m_menuItemsScrollViewer as ScrollViewer;
+                var footerScrollViewer = m_footerItemsScrollViewer as ScrollViewer;
+                var menuVerticalOffset = menuScrollViewer?.VerticalOffset ?? 0;
+                var menuHorizontalOffset = menuScrollViewer?.HorizontalOffset ?? 0;
+                var footerVerticalOffset = footerScrollViewer?.VerticalOffset ?? 0;
+                var footerHorizontalOffset = footerScrollViewer?.HorizontalOffset ?? 0;
+
                 if (m_leftNavRepeater is { } repeater)
                 {
                     repeater.UpdateLayout();
                 }
                 UpdatePaneLayout();
+
+                if (menuScrollViewer != null || footerScrollViewer != null)
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+                    {
+                        RestoreScrollOffsets(menuScrollViewer, menuHorizontalOffset, menuVerticalOffset);
+                        RestoreScrollOffsets(footerScrollViewer, footerHorizontalOffset, footerVerticalOffset);
+                    }));
+                }
+            }
+        }
+
+        static void RestoreScrollOffsets(ScrollViewer scrollViewer, double horizontalOffset, double verticalOffset)
+        {
+            if (scrollViewer == null)
+            {
+                return;
+            }
+
+            var clampedHorizontalOffset = Math.Min(horizontalOffset, scrollViewer.ScrollableWidth);
+            var clampedVerticalOffset = Math.Min(verticalOffset, scrollViewer.ScrollableHeight);
+
+            if (!double.IsNaN(clampedHorizontalOffset) && !double.IsInfinity(clampedHorizontalOffset))
+            {
+                scrollViewer.ScrollToHorizontalOffset(clampedHorizontalOffset);
+            }
+
+            if (!double.IsNaN(clampedVerticalOffset) && !double.IsInfinity(clampedVerticalOffset))
+            {
+                scrollViewer.ScrollToVerticalOffset(clampedVerticalOffset);
             }
         }
 
