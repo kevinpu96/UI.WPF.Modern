@@ -17,6 +17,13 @@ namespace iNKORE.UI.WPF.Modern.Controls
     [ContentProperty(nameof(ScrollViewer))]
     public class ItemsRepeaterScrollHost : Panel, IRepeaterScrollingSurface
     {
+        public static readonly DependencyProperty IsAnchorTrackingEnabledProperty =
+            DependencyProperty.Register(
+                nameof(IsAnchorTrackingEnabled),
+                typeof(bool),
+                typeof(ItemsRepeaterScrollHost),
+                new PropertyMetadata(true));
+
         public ItemsRepeaterScrollHost()
         {
             m_pendingBringIntoView = new BringIntoViewState(this);
@@ -58,7 +65,7 @@ namespace iNKORE.UI.WPF.Modern.Controls
                 {
                     ApplyPendingChangeView(scrollViewer);
                 }
-                else if (anchorElement != null)
+                else if (anchorElement != null && IsAnchorTrackingEnabled)
                 {
                     // The anchor element might have changed its position relative to us.
                     // If that's the case, we should shift the viewport to follow it as much as possible.
@@ -88,6 +95,12 @@ namespace iNKORE.UI.WPF.Modern.Controls
         {
             get => m_verticalEdge;
             set => m_verticalEdge = value;
+        }
+
+        public bool IsAnchorTrackingEnabled
+        {
+            get => (bool)GetValue(IsAnchorTrackingEnabledProperty);
+            set => SetValue(IsAnchorTrackingEnabledProperty, value);
         }
 
         public UIElement CurrentAnchor
@@ -162,6 +175,11 @@ namespace iNKORE.UI.WPF.Modern.Controls
 
         void IRepeaterScrollingSurface.RegisterAnchorCandidate(UIElement element)
         {
+            if (!IsAnchorTrackingEnabled)
+            {
+                return;
+            }
+
             if (!double.IsNaN(HorizontalAnchorRatio) || !double.IsNaN(VerticalAnchorRatio))
             {
                 if (ScrollViewer is ScrollViewer scrollViewer)
