@@ -509,8 +509,8 @@ namespace iNKORE.UI.WPF.Modern.Controls
         // Whenever the m_candidates list changes, we set this to true.
         private bool m_isAnchorElementDirty = true;
 
-        private double m_horizontalEdge = double.NaN;
-        private double m_verticalEdge = double.NaN;    // Not used in this temporary implementation.
+        private double m_horizontalEdge;
+        private double m_verticalEdge;    // Not used in this temporary implementation.
 
         // We can only bring an element into view after it got arranged and
         // we know its bounds as well as the viewport (so that we can account
