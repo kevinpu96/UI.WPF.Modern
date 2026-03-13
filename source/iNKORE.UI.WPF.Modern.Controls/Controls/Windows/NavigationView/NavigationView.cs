@@ -356,7 +356,9 @@ namespace iNKORE.UI.WPF.Modern.Controls
                     }
                     else
                     {
-                        m_moveTopNavOverflowItemOnFlyoutClose = true;
+                        // Do not move parent items with children from overflow back to the
+                        // top primary list when the flyout closes.
+                        m_moveTopNavOverflowItemOnFlyoutClose = false;
                     }
                 }
             }
