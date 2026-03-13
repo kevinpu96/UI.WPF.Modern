@@ -120,7 +120,7 @@ namespace iNKORE.UI.WPF.Modern.Controls.Primitives
 
             if (GetNavigationViewItem() is { } navigationViewItem)
             {
-                if (GetTemplateChildT<Grid>(c_expandCollapseChevron, this) is { } expandCollapseChevron)
+                if (GetTemplateChildT<FrameworkElement>(c_expandCollapseChevron, this) is { } expandCollapseChevron)
                 {
                     m_expandCollapseChevron = expandCollapseChevron;
                     InputHelper.SetIsTapEnabled(expandCollapseChevron, true);
@@ -269,7 +269,7 @@ namespace iNKORE.UI.WPF.Modern.Controls.Primitives
 
         NavigationViewItemHelper<NavigationViewItemPresenter> m_helper = new NavigationViewItemHelper<NavigationViewItemPresenter>();
         Grid m_contentGrid;
-        Grid m_expandCollapseChevron;
+        FrameworkElement m_expandCollapseChevron;
 
         double m_leftIndentation = 0;
 
