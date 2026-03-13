@@ -120,7 +120,7 @@ namespace iNKORE.UI.WPF.Modern.Controls.Primitives
 
             if (GetNavigationViewItem() is { } navigationViewItem)
             {
-                if (GetTemplateChildT<Grid>(c_expandCollapseChevron, this) is { } expandCollapseChevron)
+                if (GetTemplateChildT<FrameworkElement>(c_expandCollapseChevron, this) is { } expandCollapseChevron)
                 {
                     m_expandCollapseChevron = expandCollapseChevron;
                     InputHelper.SetIsTapEnabled(expandCollapseChevron, true);
@@ -206,16 +206,20 @@ namespace iNKORE.UI.WPF.Modern.Controls.Primitives
 
         NavigationViewItem GetNavigationViewItem()
         {
-            NavigationViewItem navigationViewItem = null;
-
-            // winrt::DependencyObject obj = operator winrt::DependencyObject();
-            DependencyObject obj = this;
-
-            if (SharedHelpers.GetAncestorOfType<NavigationViewItem>(VisualTreeHelper.GetParent(obj)) is { } item)
+            // NavigationViewItemPresenter comes from NavigationViewItem's template,
+            // so TemplatedParent is the most reliable source during OnApplyTemplate.
+            if (TemplatedParent is NavigationViewItem templatedParentItem)
             {
-                navigationViewItem = item;
+                return templatedParentItem;
             }
-            return navigationViewItem;
+
+            // Fallback for non-standard visual trees.
+            if (SharedHelpers.GetAncestorOfType<NavigationViewItem>(VisualTreeHelper.GetParent(this)) is { } item)
+            {
+                return item;
+            }
+
+            return null;
         }
 
         internal void UpdateContentLeftIndentation(double leftIndentation)
@@ -269,7 +273,7 @@ namespace iNKORE.UI.WPF.Modern.Controls.Primitives
 
         NavigationViewItemHelper<NavigationViewItemPresenter> m_helper = new NavigationViewItemHelper<NavigationViewItemPresenter>();
         Grid m_contentGrid;
-        Grid m_expandCollapseChevron;
+        FrameworkElement m_expandCollapseChevron;
 
         double m_leftIndentation = 0;
 
