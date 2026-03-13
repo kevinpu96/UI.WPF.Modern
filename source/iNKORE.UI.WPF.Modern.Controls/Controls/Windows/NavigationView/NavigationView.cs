@@ -1116,6 +1116,7 @@ namespace iNKORE.UI.WPF.Modern.Controls
                 RaiseItemInvokedForNavigationViewItem(nvi);
             }
 
+            ToggleIsExpandedNavigationViewItem(nvi);
             ClosePaneIfNeccessaryAfterItemIsClicked(nvi);
 
             if (updateSelection)
