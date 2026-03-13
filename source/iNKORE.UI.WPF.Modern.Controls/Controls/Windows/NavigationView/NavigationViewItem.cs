@@ -766,6 +766,13 @@ namespace iNKORE.UI.WPF.Modern.Controls
 
         void OnPresenterPointerPressed(object sender, PointerRoutedEventArgs args)
         {
+            // Let chevron handle its own tap interaction and avoid stealing mouse capture,
+            // otherwise InputHelper on the chevron cannot raise Tapped reliably.
+            if (m_navigationViewItemPresenter is { } navItemPresenter && navItemPresenter.IsSourceInExpandCollapseChevron(args.OriginalSource))
+            {
+                return;
+            }
+
             // Inherited code, removed Debug.Asserts
             // Debug.Assert(!m_isPressed);
             // Debug.Assert(!m_isMouseCaptured);
